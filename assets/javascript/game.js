@@ -1,9 +1,9 @@
 var characters = {
     obiwan: {
         hp: 100,
-        attack: 6,
-        baseattack: 6,
-        counterattack: 30,
+        attack: 16,
+        baseattack: 16,
+        counterattack: 10,
         name: "Obi-Wan Kenobi",
         id: 1
     },
@@ -11,15 +11,15 @@ var characters = {
         hp: 80,
         attack: 8,
         baseattack: 8,
-        counterattack: 25,
+        counterattack: 8,
         name: "Mace Windu",
         id: 2
     },
     general: {
         hp: 120,
-        attack: 5,
-        baseattack: 5,
-        counterattack: 37,
+        attack: 7,
+        baseattack: 7,
+        counterattack: 18,
         name: "General Grievous",
         id: 3
     },
@@ -87,11 +87,16 @@ $(".fightsection").on("click", "#attack-btn", function ()
         var dataobj2 = $(".defence").attr("data-obj");
         var defenderObj = JSON.parse(dataobj2);
         console.log(attackerObj.attack)
-        //Calculate defendr hp - attacker attack
-        defenderObj.hp = defenderObj.hp - attackerObj.attack;
 
+        //Calculate defendr hp - attacker attack
+        console.log(defenderObj.hp - attackerObj.attack);
+        console.log("attack = " + attackerObj.attack)
+        console.log("defender hp = " + defenderObj.hp)
+        defenderObj.hp -= attackerObj.attack;
+        console.log("defender new hp = " + defenderObj.hp)
+        
         //Calculate attacker hp -  defender counter attack 
-        attackerObj.hp = attackerObj.hp - defenderObj.counterattack;
+        attackerObj.hp -= defenderObj.counterattack;
 
         ScreenUpdate(attackerObj, defenderObj);
 
@@ -103,7 +108,7 @@ $(".fightsection").on("click", "#attack-btn", function ()
         $(".selected").attr("data-obj", jsonstring)
         console.log(jsonstring)
         jsonstring = JSON.stringify(defenderObj);
-        $(".defender").attr("data-obj", jsonstring)
+        $(".defence").attr("data-obj", jsonstring)
         console.log(jsonstring)
 
     }
@@ -133,18 +138,17 @@ function GetJSONString(htmlid)
 
 function ScreenUpdate(attackerObj, defenderObj)
 {
-
-    if (attackerObj.hp != 0 && defenderObj.hp != 0)
+    if (attackerObj.hp > 0 && defenderObj.hp > 0)
     {
         //Display message below Deender
         $("#pAttacker").text("You attacked " + defenderObj.name + " for " + attackerObj.attack + " damage");
-        $("#pDefender").text(defenderObj.name + "Attacked you back for " + defenderObj.attack + " damage");
+        $("#pDefender").text(defenderObj.name + "Attacked you back for " + defenderObj.counterattack + " damage");
 
         //Update HP
         $(".selected #hp").text(attackerObj.hp)
         $(".defence #hp").text(defenderObj.hp)
     }
-    else if (attackerObj.hp == 0 && defenderObj.hp != 0)
+    else if (attackerObj.hp <= 0 && defenderObj.hp > 0)
     {
         $(".selected #hp").text(attackerObj.hp)
         $(".defence #hp").text(defenderObj.hp)
@@ -152,8 +156,9 @@ function ScreenUpdate(attackerObj, defenderObj)
         $("#pDefender").text("");
         //Create or show button to restart
     }
-    else if (attackerObj.hp != 0 && defenderObj.hp == 0)
+    else if (attackerObj.hp > 0 && defenderObj.hp <= 0)
     {
+        console.log("I GOT IN TO REMOVE")
         $(".defence").remove();
 
         if ($(".enemies").children().length >= 0)
