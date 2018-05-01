@@ -1,3 +1,9 @@
+body{
+    background: url(../images/background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+}
 .customcontainer{
     margin-left: 10px;
 }
@@ -9,21 +15,19 @@ img {
 
 .imagebox {
     float: left;
-   
+    background-color: white;
     text-align: center;
     padding: 0px 20px;
 }
+
 .imagebox p {
     margin: 0;
+    color: black;
 }
 
 .imagebox img {
     margin: 4px 0px;
 }
-
-/* p{
-    font-weight: bold;
-} */
 
 .characterSelection .imagebox{
     border: 3px solid green;
@@ -38,10 +42,10 @@ img {
 .defender .imagebox{
     border: 3px solid green;
     background-color: black;
+}
+.defender .imagebox p{
     color: white;
 }
-
-
 
 .clearfix:after {
     content: "";

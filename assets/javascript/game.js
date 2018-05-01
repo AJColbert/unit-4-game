@@ -78,39 +78,56 @@ $(".enemies").on("click", ".imagebox", function ()
 //Attack button to trigger calls to math for hp and attack
 $(".fightsection").on("click", "#attack-btn", function ()
 {
+    //Get attacjer obj stored in element
+    var dataobj = $(".selected").attr("data-obj");
+    var attackerObj = JSON.parse(dataobj);
+
     if ($(".defender").children().length > 0)
     {
-        //Get attacjer obj stored in element
-        var dataobj = $(".selected").attr("data-obj");
-        var attackerObj = JSON.parse(dataobj);
         //Get defender Obj store in element
         var dataobj2 = $(".defence").attr("data-obj");
         var defenderObj = JSON.parse(dataobj2);
         console.log(attackerObj.attack)
 
-        //Calculate defendr hp - attacker attack
-        console.log(defenderObj.hp - attackerObj.attack);
-        console.log("attack = " + attackerObj.attack)
-        console.log("defender hp = " + defenderObj.hp)
-        defenderObj.hp -= attackerObj.attack;
-        console.log("defender new hp = " + defenderObj.hp)
-        
-        //Calculate attacker hp -  defender counter attack 
-        attackerObj.hp -= defenderObj.counterattack;
+        if (attackerObj.hp > 0 && defenderObj.hp > 0)
+        {
+            //Calculate defendr hp - attacker attack
+            defenderObj.hp -= attackerObj.attack;
+            console.log("attackbefore if hp: " + attackerObj.hp)
+            console.log("defence before if hp:" + defenderObj.hp)
+            if (defenderObj.hp <= 0)
+            {
+                console.log("attackin if hp: " + attackerObj.hp)
+                console.log("defence in if hp:" + defenderObj.hp)
+                console.log("IN IF < 0")
+                ScreenUpdate(attackerObj, defenderObj);
 
-        ScreenUpdate(attackerObj, defenderObj);
+            }
+            else
+            {
+                console.log("IN ELSE")
+                console.log("attack in elseif hp: " + attackerObj.hp)
+                console.log("defence in elsehp:" + defenderObj.hp)
+                //Calculate attacker hp -  defender counter attack 
+                attackerObj.hp -= defenderObj.counterattack;
+                ScreenUpdate(attackerObj, defenderObj);
 
-         //attacker attack increases by attack power
-        attackerObj.attack += attackerObj.baseattack;
-        console.log(attackerObj.attack)
+            }
 
-        var jsonstring = JSON.stringify(attackerObj);
-        $(".selected").attr("data-obj", jsonstring)
-        console.log(jsonstring)
-        jsonstring = JSON.stringify(defenderObj);
-        $(".defence").attr("data-obj", jsonstring)
-        console.log(jsonstring)
+            //attacker attack increases by attack power
+            attackerObj.attack += attackerObj.baseattack;
 
+            var jsonstring = JSON.stringify(attackerObj);
+            $(".selected").attr("data-obj", jsonstring)
+
+            jsonstring = JSON.stringify(defenderObj);
+            $(".defence").attr("data-obj", jsonstring)
+
+        }
+    }
+    else if ($(".enemies").children().length <= 0 && $(".defender").children().length <= 0)
+    {
+        //Do nothing to retain you won
     }
     else
     {
@@ -138,6 +155,8 @@ function GetJSONString(htmlid)
 
 function ScreenUpdate(attackerObj, defenderObj)
 {
+    console.log("attack hp: " + attackerObj.hp)
+    console.log("defence hp:" + defenderObj.hp)
     if (attackerObj.hp > 0 && defenderObj.hp > 0)
     {
         //Display message below Deender
@@ -150,10 +169,12 @@ function ScreenUpdate(attackerObj, defenderObj)
     }
     else if (attackerObj.hp <= 0 && defenderObj.hp > 0)
     {
+
         $(".selected #hp").text(attackerObj.hp)
         $(".defence #hp").text(defenderObj.hp)
         $("#pAttacker").text("You've Been Defeated....GAME OVER")
         $("#pDefender").text("");
+
         //Create or show button to restart
     }
     else if (attackerObj.hp > 0 && defenderObj.hp <= 0)
@@ -161,23 +182,27 @@ function ScreenUpdate(attackerObj, defenderObj)
         console.log("I GOT IN TO REMOVE")
         $(".defence").remove();
 
-        if ($(".enemies").children().length >= 0)
+        if ($(".enemies").children().length > 0)
         {
             $("#pDefender").empty();
-            $("#pAttacker").text("You have defeated" + defenderObj.name + ", You can choose to fight another enemie");
+            $("#pAttacker").text("You have defeated " + defenderObj.name + ", You can choose to fight another enemie");
 
         }
         else
         {
             $("#pAttacker").text("YOU WON!!!!GAME OVER!!!")
             $("#pDefender").text("");
+
             //Create or show button to restart
 
         }
-
-
-
     }
+}
 
-
+function reset()
+{
+    var button = $("<button>");
+    button.addClass("btn btn-primary btn-md");
+    button.text("RESET")
+    $(".reset").append(button);
 }
