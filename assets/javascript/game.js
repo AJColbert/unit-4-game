@@ -34,16 +34,11 @@ var characters = {
 
 };
 
-console.log(Object.keys(characters)[0])
-console.log(Object.keys(characters)[1])
-currentattack = 0;
-
 
 //Character Selection
 $(".characterSelection").on("click", ".imagebox", function ()
 {
     var htmlid = $(this).attr("id");
-    console.log(htmlid);
     var characterobj = GetJSONString(htmlid);
     $(this).attr("data-obj", characterobj)
     $(this).clone().addClass("selected").appendTo($(".yourcharacter"));
@@ -63,7 +58,6 @@ function MoveEnemies(selected)
 //On click to Select Enemy to Attack
 $(".enemies").on("click", ".imagebox", function ()
 {
-    //console.log($(".defender").children())
     if ($(".defender").children().length <= 0)
     {
         var htmlid = $(this).attr("id");
@@ -87,27 +81,18 @@ $(".fightsection").on("click", "#attack-btn", function ()
         //Get defender Obj store in element
         var dataobj2 = $(".defence").attr("data-obj");
         var defenderObj = JSON.parse(dataobj2);
-        console.log(attackerObj.attack)
 
         if (attackerObj.hp > 0 && defenderObj.hp > 0)
         {
             //Calculate defendr hp - attacker attack
             defenderObj.hp -= attackerObj.attack;
-            console.log("attackbefore if hp: " + attackerObj.hp)
-            console.log("defence before if hp:" + defenderObj.hp)
+         
             if (defenderObj.hp <= 0)
             {
-                console.log("attackin if hp: " + attackerObj.hp)
-                console.log("defence in if hp:" + defenderObj.hp)
-                console.log("IN IF < 0")
                 ScreenUpdate(attackerObj, defenderObj);
-
             }
             else
             {
-                console.log("IN ELSE")
-                console.log("attack in elseif hp: " + attackerObj.hp)
-                console.log("defence in elsehp:" + defenderObj.hp)
                 //Calculate attacker hp -  defender counter attack 
                 attackerObj.hp -= defenderObj.counterattack;
                 ScreenUpdate(attackerObj, defenderObj);
@@ -138,7 +123,6 @@ $(".fightsection").on("click", "#attack-btn", function ()
 });
 
 $(".reset").on("click", ".resetbtn", function(){
-    console.log("RESEEEETTTTT");
     location.reload();
 });
 
@@ -160,8 +144,6 @@ function GetJSONString(htmlid)
 
 function ScreenUpdate(attackerObj, defenderObj)
 {
-    console.log("attack hp: " + attackerObj.hp)
-    console.log("defence hp:" + defenderObj.hp)
     if (attackerObj.hp > 0 && defenderObj.hp > 0)
     {
         //Display message below Deender
@@ -184,7 +166,6 @@ function ScreenUpdate(attackerObj, defenderObj)
     }
     else if (attackerObj.hp > 0 && defenderObj.hp <= 0)
     {
-        console.log("I GOT IN TO REMOVE")
         $(".defence").remove();
 
         if ($(".enemies").children().length > 0)
@@ -199,7 +180,6 @@ function ScreenUpdate(attackerObj, defenderObj)
             $("#pDefender").text("");
             reset();
             //Create or show button to restart
-
         }
     }
 }
