@@ -137,6 +137,11 @@ $(".fightsection").on("click", "#attack-btn", function ()
 
 });
 
+$(".reset").on("click", ".resetbtn", function(){
+    console.log("RESEEEETTTTT");
+    location.reload();
+});
+
 function GetJSONString(htmlid)
 {
     for (var i = 0; i < Object.keys(characters).length; i++)
@@ -164,17 +169,17 @@ function ScreenUpdate(attackerObj, defenderObj)
         $("#pDefender").text(defenderObj.name + "Attacked you back for " + defenderObj.counterattack + " damage");
 
         //Update HP
-        $(".selected #hp").text(attackerObj.hp)
-        $(".defence #hp").text(defenderObj.hp)
+        $(".selected #hp").text(attackerObj.hp);
+        $(".defence #hp").text(defenderObj.hp);
     }
     else if (attackerObj.hp <= 0 && defenderObj.hp > 0)
     {
 
-        $(".selected #hp").text(attackerObj.hp)
-        $(".defence #hp").text(defenderObj.hp)
-        $("#pAttacker").text("You've Been Defeated....GAME OVER")
+        $(".selected #hp").text(attackerObj.hp);
+        $(".defence #hp").text(defenderObj.hp);
+        $("#pAttacker").text("You've Been Defeated....GAME OVER");
         $("#pDefender").text("");
-
+        reset();
         //Create or show button to restart
     }
     else if (attackerObj.hp > 0 && defenderObj.hp <= 0)
@@ -190,9 +195,9 @@ function ScreenUpdate(attackerObj, defenderObj)
         }
         else
         {
-            $("#pAttacker").text("YOU WON!!!!GAME OVER!!!")
+            $("#pAttacker").text("YOU WON!!!!GAME OVER!!!");
             $("#pDefender").text("");
-
+            reset();
             //Create or show button to restart
 
         }
@@ -202,7 +207,9 @@ function ScreenUpdate(attackerObj, defenderObj)
 function reset()
 {
     var button = $("<button>");
-    button.addClass("btn btn-primary btn-md");
+    button.addClass("btn btn-primary btn-md resetbtn");
     button.text("RESET")
     $(".reset").append(button);
 }
+
+    
