@@ -86,7 +86,7 @@ $(".fightsection").on("click", "#attack-btn", function ()
         {
             //Calculate defendr hp - attacker attack
             defenderObj.hp -= attackerObj.attack;
-         
+
             if (defenderObj.hp <= 0)
             {
                 ScreenUpdate(attackerObj, defenderObj);
@@ -112,7 +112,7 @@ $(".fightsection").on("click", "#attack-btn", function ()
     }
     else if ($(".enemies").children().length <= 0 && $(".defender").children().length <= 0)
     {
-        //Do nothing to retain you won
+        //Do nothing to retain You Win Message
     }
     else
     {
@@ -122,7 +122,8 @@ $(".fightsection").on("click", "#attack-btn", function ()
 
 });
 
-$(".reset").on("click", ".resetbtn", function(){
+$(".reset").on("click", ".resetbtn", function ()
+{
     location.reload();
 });
 
@@ -192,4 +193,3 @@ function reset()
     $(".reset").append(button);
 }
 
-    
