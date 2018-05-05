@@ -5,8 +5,6 @@ This is a Star Wars themed RPG, the goal of the game it to get your character to
 ## Table of Contents
 
 1. [How-To-Play](#how-to-play)
-1. [Contributing](#contributing)
-1. [License](#license)
 
 
 ## How-To-Play
